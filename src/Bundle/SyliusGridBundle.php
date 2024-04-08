@@ -17,6 +17,7 @@ use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterDriversPass;
 use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterFieldTypesPass;
 use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterFiltersPass;
 use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterStubCommandsPass;
+use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterTimezoneParameterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -34,6 +35,7 @@ final class SyliusGridBundle extends Bundle
         $container->addCompilerPass(new RegisterFiltersPass());
         $container->addCompilerPass(new RegisterFieldTypesPass());
         $container->addCompilerPass(new RegisterStubCommandsPass());
+        $container->addCompilerPass(new RegisterTimezoneParameterPass());
     }
 
     /**

@@ -1,0 +1,44 @@
+<?php
+
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace DependencyInjection\Compiler;
+
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Sylius\Bundle\GridBundle\DependencyInjection\Compiler\RegisterTimezoneParameterPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+final class RegisterTimezoneParameterPassTest extends AbstractCompilerPassTestCase
+{
+    /** @test */
+    public function it_registers_null_timezone_parameter_if_it_does_not_exist(): void
+    {
+        $this->compile();
+
+        $this->assertContainerBuilderHasParameter('timezone', null);
+    }
+
+    /** @test */
+    public function it_does_nothing_if_timezone_parameter_already_exists(): void
+    {
+        $this->container->setParameter('timezone', 'UTC');
+
+        $this->compile();
+
+        $this->assertContainerBuilderHasParameter('timezone', 'UTC');
+    }
+
+    protected function registerCompilerPass(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new RegisterTimezoneParameterPass());
+    }
+}
