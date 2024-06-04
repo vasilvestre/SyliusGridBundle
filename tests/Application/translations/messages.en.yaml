@@ -1,3 +1,5 @@
 app:
     ui:
+        authors: Authors
         board_games: Board games
+        books: Books

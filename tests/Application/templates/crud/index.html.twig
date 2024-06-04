@@ -1,4 +1,6 @@
-<h1>{{ (operation.resource.applicationName ~ '.ui.' ~ operation.resource.pluralName)|trans }}</h1>
+{% set metadata = resource.metadata|default(metadata) %}
+
+<h1>{{ (metadata.applicationName ~ '.ui.' ~ metadata.pluralName)|trans }}</h1>
 
 {% set grid = resources %}
 {% set definition = grid.definition %}
@@ -20,7 +22,7 @@
     {% for resource in resources.data %}
         <tr>
             {% for field in definition.enabledFields %}
-                <td>{{ sylius_grid_render_field(grid, field, resource) }}</td>
+                <td data-test-{{ field.name }}>{{ sylius_grid_render_field(grid, field, resource) }}</td>
                 <td>
                     {% if definition.actionGroups.item is defined and definition.getEnabledActions('item')|length > 0 %}
                         {% for action in definition.getEnabledActions('item') %}

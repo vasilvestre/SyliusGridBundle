@@ -45,19 +45,19 @@ final class AuthorGrid extends AbstractGrid implements ResourceAwareGridInterfac
             ->orderBy('name', 'asc')
             ->addField(
                 StringField::create('id')
-                ->setSortable(true)
-                ->setEnabled(false),
+                    ->setSortable(true)
+                    ->setEnabled(false),
             )
             ->addField(
                 StringField::create('name')
-                ->setLabel('Name')
-                ->setSortable(true),
+                    ->setLabel('Name')
+                    ->setSortable(true),
             )
             ->addField(
                 StringField::create('nationality')
-                ->setLabel('Name')
-                ->setPath('nationality.name')
-                ->setSortable(true, 'nationality.name'),
+                    ->setLabel('Name')
+                    ->setPath('nationality')
+                    ->setSortable(true, 'nationality.name'),
             )
             ->setLimits([10, 5, 15])
         ;

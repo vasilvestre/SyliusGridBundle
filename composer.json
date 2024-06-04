@@ -72,6 +72,7 @@
         "sylius-labs/coding-standard": "^4.0",
         "sylius/resource-bundle": "dev-poc-new-resource-metadata",
         "symfony/console": "^5.4 || ^6.0",
+        "symfony/css-selector": "^5.4 || ^6.0",
         "symfony/dotenv": "^5.4 || ^6.0",
         "symfony/maker-bundle": "^1.36",
         "symfony/polyfill-mbstring": "<1.22.0 || >1.22.0",
@@ -120,7 +121,7 @@
         "fix": [
             "vendor/bin/ecs check --fix"
         ],
-        "test": [
+        "test-yaml-config": [
             "vendor/bin/phpspec run --ansi --no-interaction",
             "APP_ENV=test_grids_with_yaml_config vendor/bin/phpunit --colors=always"
         ],

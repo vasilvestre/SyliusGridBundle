@@ -13,9 +13,13 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\GridBundle\Tests\Functional;
 
-use ApiTestCase\JsonApiTestCase;
+use ApiTestCase\ApiTestCase;
+use Coduo\PHPMatcher\Backtrace\VoidBacktrace;
+use Coduo\PHPMatcher\Matcher;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Response;
 
-final class GridApiTest extends JsonApiTestCase
+final class GridUiTest extends ApiTestCase
 {
     /** @var array */
     private $data;
@@ -31,8 +35,11 @@ final class GridApiTest extends JsonApiTestCase
     public function it_shows_authors_grid(): void
     {
         $this->client->request('GET', '/authors/');
+        $response = $this->client->getResponse();
 
-        $this->assertResponse($this->client->getResponse(), 'authors_grid');
+        $this->assertResponseCode($response, Response::HTTP_OK);
+
+        $this->assertCount(10, $this->getAuthorNames());
     }
 
     /** @test */
@@ -40,10 +47,7 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/?limit=100');
 
-        $items = $this->getItemsFromCurrentResponse();
-        $names = array_map(static function (array $item): string {
-            return $item['name'];
-        }, $items);
+        $names = $this->getAuthorNames();
 
         $sortedNames = $names;
         sort($names);
@@ -56,10 +60,7 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/?sorting[name]=desc&limit=100');
 
-        $items = $this->getItemsFromCurrentResponse();
-        $names = array_map(static function (array $item): string {
-            return $item['name'];
-        }, $items);
+        $names = $this->getAuthorNames();
 
         $sortedNames = $names;
         rsort($names);
@@ -72,7 +73,7 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/');
 
-        $this->assertCount(10, $this->getItemsFromCurrentResponse());
+        $this->assertCount(10, $this->getAuthorNames());
     }
 
     /** @test */
@@ -80,11 +81,11 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/?limit=5');
 
-        $this->assertCount(5, $this->getItemsFromCurrentResponse());
+        $this->assertCount(5, $this->getAuthorNames());
 
         $this->client->request('GET', '/authors/?limit=15');
 
-        $this->assertCount(15, $this->getItemsFromCurrentResponse());
+        $this->assertCount(15, $this->getAuthorNames());
     }
 
     /** @test */
@@ -95,8 +96,10 @@ final class GridApiTest extends JsonApiTestCase
             urlencode('Book 5'),
         ));
 
-        $this->assertCount(1, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Book 5', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(1, $titles);
+        $this->assertSame('Book 5', $titles[0]);
     }
 
     /** @test */
@@ -107,8 +110,10 @@ final class GridApiTest extends JsonApiTestCase
             urlencode('jurassic'),
         ));
 
-        $this->assertCount(1, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Jurassic Park', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(1, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -118,8 +123,10 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/books/?criteria[author][]=%d', $authorId));
 
-        $this->assertCount(2, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Jurassic Park', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(2, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -130,8 +137,10 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/books/?criteria[author][]=%d&criteria[author][]=%d', $firstAuthorId, $secondAuthorId));
 
-        $this->assertCount(3, $this->getItemsFromCurrentResponse());
-        $this->assertSame('A Study in Scarlet', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(3, $titles);
+        $this->assertSame('A Study in Scarlet', $titles[0]);
     }
 
     /** @test */
@@ -141,8 +150,10 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/books/?criteria[nationality]=%d', $authorNationalityId));
 
-        $this->assertCount(2, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Jurassic Park', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(2, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -152,8 +163,10 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/books/?criteria[author]=%d&criteria[currencyCode]=%s', $authorId, 'EUR'));
 
-        $this->assertCount(1, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Jurassic Park', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(1, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -161,10 +174,7 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/books/?sorting[author]=asc&limit=100');
 
-        $items = $this->getItemsFromCurrentResponse();
-        $names = array_map(static function (array $item): string {
-            return $item['author']['name'];
-        }, $items);
+        $names = $this->getBookAuthors();
 
         $sortedNames = $names;
         sort($names);
@@ -177,10 +187,7 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/books/?sorting[nationality]=desc&limit=100');
 
-        $items = $this->getItemsFromCurrentResponse();
-        $names = array_map(static function (array $item): string {
-            return $item['author']['nationality']['name'];
-        }, $items);
+        $names = $this->getBookAuthorNationalities();
 
         $sortedNames = $names;
         rsort($names);
@@ -195,8 +202,10 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/by-american-authors/books/?criteria[author]=%d', $authorId));
 
-        $this->assertCount(2, $this->getItemsFromCurrentResponse());
-        $this->assertSame('Jurassic Park', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(2, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -204,7 +213,10 @@ final class GridApiTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/by-american-authors/books/?sorting[author]=asc');
 
-        $this->assertResponse($this->client->getResponse(), 'american_authors_sorted_ascending');
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(2, $titles);
+        $this->assertSame('Jurassic Park', $titles[0]);
     }
 
     /** @test */
@@ -214,40 +226,72 @@ final class GridApiTest extends JsonApiTestCase
 
         $this->client->request('GET', sprintf('/by-english-authors/books/?criteria[author]=%d', $authorId));
 
-        $this->assertCount(1, $this->getItemsFromCurrentResponse());
-        $this->assertSame('A Study in Scarlet', $this->getFirstItemFromCurrentResponse()['title']);
+        $titles = $this->getBookTitles();
+
+        $this->assertCount(1, $titles);
+        $this->assertSame('A Study in Scarlet', $titles[0]);
     }
 
+    /** @test */
     public function it_includes_all_rows_even_when_sorting_by_a_nullable_path(): void
     {
         $this->client->request('GET', '/authors/');
-        $totalItemsCountBeforeSorting = $this->getTotalItemsCountFromCurrentResponse();
+        $totalItemsCountBeforeSorting = count($this->getAuthorNames());
 
         $this->client->request('GET', '/authors/?sorting[nationality]=desc');
-        $totalItemsCountAfterSorting = $this->getTotalItemsCountFromCurrentResponse();
+
+        $totalItemsCountAfterSorting = count($this->getAuthorNames());
 
         $this->assertSame($totalItemsCountBeforeSorting, $totalItemsCountAfterSorting);
     }
 
-    private function getTotalItemsCountFromCurrentResponse(): int
+    /** @return string[] */
+    private function getBookTitles(): array
     {
-        return json_decode($this->client->getResponse()->getContent(), true)['total'];
+        return $this->getCrawler()
+            ->filter('[data-test-title]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
     }
 
-    private function getItemsFromCurrentResponse(): array
+    /** @return string[] */
+    private function getBookAuthors(): array
     {
-        return json_decode($this->client->getResponse()->getContent(), true)['_embedded']['items'];
+        return $this->getCrawler()
+            ->filter('[data-test-author]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
     }
 
-    private function getFirstItemFromCurrentResponse(): array
+    /** @return string[] */
+    private function getBookAuthorNationalities(): array
     {
-        return current($this->getItemsFromCurrentResponse());
+        return $this->getCrawler()
+            ->filter('[data-test-nationality]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
     }
 
-    private function getLastItemFromCurrentResponse(): array
+    /** @return string[] */
+    private function getAuthorNames(): array
     {
-        $result = $this->getItemsFromCurrentResponse();
+        return $this->getCrawler()
+            ->filter('[data-test-name]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
+    }
 
-        return end($result);
+    private function getCrawler(): Crawler
+    {
+        return $this->client->getCrawler();
+    }
+
+    protected function buildMatcher(): Matcher
+    {
+        return $this->matcherFactory->createMatcher(new VoidBacktrace());
     }
 }

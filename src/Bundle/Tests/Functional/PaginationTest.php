@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\GridBundle\Tests\Functional;
 
-use ApiTestCase\JsonApiTestCase;
+use ApiTestCase\ApiTestCase;
+use Coduo\PHPMatcher\Backtrace\VoidBacktrace;
+use Coduo\PHPMatcher\Matcher;
+use Symfony\Component\DomCrawler\Crawler;
 
-final class PaginationTest extends JsonApiTestCase
+final class PaginationTest extends ApiTestCase
 {
     protected function setUp(): void
     {
@@ -29,7 +32,7 @@ final class PaginationTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-fetch-join-collection-disabled');
 
-        self::assertNotCount(10, $this->getItemsFromCurrentResponse());
+        self::assertNotCount(10, $this->getAuthorNames());
     }
 
     /** @test */
@@ -37,11 +40,26 @@ final class PaginationTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-fetch-join-collection-enabled');
 
-        self::assertCount(10, $this->getItemsFromCurrentResponse());
+        self::assertCount(10, $this->getAuthorNames());
     }
 
-    private function getItemsFromCurrentResponse(): array
+    /** @return string[] */
+    private function getAuthorNames(): array
     {
-        return json_decode($this->client->getResponse()->getContent(), true, 512, \JSON_THROW_ON_ERROR)['_embedded']['items'];
+        return $this->getCrawler()
+            ->filter('[data-test-name]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
+    }
+
+    private function getCrawler(): Crawler
+    {
+        return $this->client->getCrawler();
+    }
+
+    protected function buildMatcher(): Matcher
+    {
+        return $this->matcherFactory->createMatcher(new VoidBacktrace());
     }
 }

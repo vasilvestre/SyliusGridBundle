@@ -49,4 +49,9 @@ class Nationality implements ResourceInterface
     {
         $this->name = $name;
     }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
+    }
 }

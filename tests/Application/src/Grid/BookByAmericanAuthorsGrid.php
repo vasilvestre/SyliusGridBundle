@@ -63,7 +63,7 @@ final class BookByAmericanAuthorsGrid extends AbstractGrid implements ResourceAw
             ->addField(
                 StringField::create('nationality')
                 ->setLabel('Nationality')
-                ->setPath('na.name')
+                ->setPath('author.nationality.name')
                 ->setSortable(true, 'na.name'),
             )
             ->setLimits([10, 5, 15])

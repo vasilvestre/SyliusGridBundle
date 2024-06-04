@@ -10,7 +10,7 @@
         <ini name="error_reporting" value="-1" />
 
         <!-- ###+ symfony/framework-bundle ### -->
-        <env name="APP_ENV" value="test"/>
+        <env name="APP_ENV" value="test_grids_with_php_config"/>
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- ###- symfony/framework-bundle ### -->
 
