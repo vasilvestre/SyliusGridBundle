@@ -21,8 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class GridUiTest extends ApiTestCase
 {
-    /** @var array */
-    private $data;
+    private array $data;
 
     protected function setUp(): void
     {
