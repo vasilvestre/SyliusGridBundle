@@ -21,13 +21,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class SortingTest extends ApiTestCase
 {
-    private array $data;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->data = $this->loadFixturesFromFile('fixtures.yml');
+        $this->loadFixturesFromFile('fixtures.yml');
     }
 
     /** @test */
@@ -45,7 +43,7 @@ final class SortingTest extends ApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-use-output-walkers-enabled?sorting[book]=asc');
 
-        self::assertCount(10, $this->getAuthorNames());
+        self::assertCount(10, $this->getAuthorNamesFromResponse());
     }
 
     /** @test */
@@ -53,11 +51,11 @@ final class SortingTest extends ApiTestCase
     {
         $this->client->request('GET', '/authors/?sorting[id]=asc');
 
-        self::assertCount(10, $this->getAuthorNames());
+        self::assertCount(10, $this->getAuthorNamesFromResponse());
     }
 
     /** @return string[] */
-    private function getAuthorNames(): array
+    private function getAuthorNamesFromResponse(): array
     {
         return $this->getCrawler()
             ->filter('[data-test-name]')

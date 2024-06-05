@@ -32,7 +32,7 @@ final class PaginationTest extends ApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-fetch-join-collection-disabled');
 
-        self::assertNotCount(10, $this->getAuthorNames());
+        self::assertNotCount(10, $this->getAuthorNamesFromResponse());
     }
 
     /** @test */
@@ -40,11 +40,11 @@ final class PaginationTest extends ApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-fetch-join-collection-enabled');
 
-        self::assertCount(10, $this->getAuthorNames());
+        self::assertCount(10, $this->getAuthorNamesFromResponse());
     }
 
     /** @return string[] */
-    private function getAuthorNames(): array
+    private function getAuthorNamesFromResponse(): array
     {
         return $this->getCrawler()
             ->filter('[data-test-name]')
