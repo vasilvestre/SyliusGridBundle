@@ -4,7 +4,7 @@ app_books:
         grid: app_book
         only: ['index']
         templates: crud
-    type: sylius.resource_api
+    type: sylius.resource
 
 app_book_show:
     path: /books/{id}}
@@ -18,7 +18,7 @@ app_author:
         grid: app_author
         only: ['index']
         templates: crud
-    type: sylius.resource_api
+    type: sylius.resource
 
 app_books_by_american_authors:
     resource: |
@@ -27,7 +27,7 @@ app_books_by_american_authors:
         grid: app_book_by_american_authors
         only: ['index']
         templates: crud
-    type: sylius.resource_api
+    type: sylius.resource
     prefix: /by-american-authors
 
 app_books_by_english_authors:
@@ -37,7 +37,7 @@ app_books_by_english_authors:
         grid: app_book_by_english_authors
         only: ['index']
         templates: crud
-    type: sylius.resource_api
+    type: sylius.resource
     prefix: /by-english-authors
 
 app_author_with_books_with_fetch_join_collection_disabled:
