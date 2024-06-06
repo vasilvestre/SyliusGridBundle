@@ -96,7 +96,6 @@ jobs:
 
             -
                 name: Run tests for grids with php config
-                if: matrix.symfony == '^5.3'
                 run: |
                     (cd tests/Application && bin/console cache:clear --env=test_grids_with_php_config)
                     composer test-php-config
