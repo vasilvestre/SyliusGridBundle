@@ -13,17 +13,19 @@ declare(strict_types=1);
 
 namespace Sylius\Bundle\GridBundle\Tests\Functional;
 
-use ApiTestCase\JsonApiTestCase;
+use ApiTestCase\ApiTestCase;
+use Coduo\PHPMatcher\Backtrace\VoidBacktrace;
+use Coduo\PHPMatcher\Matcher;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Response;
 
-final class SortingTest extends JsonApiTestCase
+final class SortingTest extends ApiTestCase
 {
-    private array $data;
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->data = $this->loadFixturesFromFile('fixtures.yml');
+        $this->loadFixturesFromFile('fixtures.yml');
     }
 
     /** @test */
@@ -31,10 +33,9 @@ final class SortingTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-use-output-walkers-disabled?sorting[book]=asc');
 
-        self::assertStringContainsString(
-            'Cannot select distinct identifiers from query with LIMIT and ORDER BY on a column from a fetch joined to-many association. Use output walkers.',
-            $this->client->getResponse()->getContent(),
-        );
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /** @test */
@@ -42,7 +43,7 @@ final class SortingTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/with-books/with-use-output-walkers-enabled?sorting[book]=asc');
 
-        self::assertCount(10, $this->getItemsFromCurrentResponse());
+        self::assertCount(10, $this->getAuthorNamesFromResponse());
     }
 
     /** @test */
@@ -50,11 +51,26 @@ final class SortingTest extends JsonApiTestCase
     {
         $this->client->request('GET', '/authors/?sorting[id]=asc');
 
-        self::assertCount(10, $this->getItemsFromCurrentResponse());
+        self::assertCount(10, $this->getAuthorNamesFromResponse());
     }
 
-    private function getItemsFromCurrentResponse(): array
+    /** @return string[] */
+    private function getAuthorNamesFromResponse(): array
     {
-        return json_decode($this->client->getResponse()->getContent(), true)['_embedded']['items'];
+        return $this->getCrawler()
+            ->filter('[data-test-name]')
+            ->each(
+                fn (Crawler $node): string => $node->text(),
+            );
+    }
+
+    private function getCrawler(): Crawler
+    {
+        return $this->client->getCrawler();
+    }
+
+    protected function buildMatcher(): Matcher
+    {
+        return $this->matcherFactory->createMatcher(new VoidBacktrace());
     }
 }

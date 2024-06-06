@@ -87,10 +87,6 @@ jobs:
                 run: (cd src/Component && vendor/bin/phpspec run)
 
             -
-                name: Run bundle tests
-                run: composer test
-
-            -
                 name: Run lint container
                 run: (cd tests/Application && bin/console lint:container)
 
@@ -99,6 +95,12 @@ jobs:
                 run: |
                     (cd tests/Application && bin/console cache:clear --env=test_grids_with_php_config)
                     composer test-php-config
+
+            -
+                name: Run tests for grids with yaml config
+                run: |
+                    (cd tests/Application && bin/console cache:clear --env=test_grids_with_yaml_config)
+                    composer test-yaml-config
 
             -
                 name: Run tests with grids as services

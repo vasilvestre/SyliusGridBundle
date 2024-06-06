@@ -39,7 +39,8 @@ final class AuthorWithBooksWithUseOutputWalkersDisabled extends AbstractGrid imp
             ->setDriverOption('pagination', ['use_output_walkers' => false])
             ->addField(
                 StringField::create('book')
-                ->setSortable(true, 'book.title'),
+                    ->setPath('books[0].title')
+                    ->setSortable(true, 'book.title'),
             )
         ;
     }
