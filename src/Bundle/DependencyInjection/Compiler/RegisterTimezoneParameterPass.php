@@ -20,10 +20,10 @@ final class RegisterTimezoneParameterPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if ($container->hasParameter('timezone')) {
+        if ($container->hasParameter('sylius_grid.timezone')) {
             return;
         }
 
-        $container->setParameter('timezone', null);
+        $container->setParameter('sylius_grid.timezone', null);
     }
 }

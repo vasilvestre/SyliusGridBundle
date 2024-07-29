@@ -24,17 +24,17 @@ final class RegisterTimezoneParameterPassTest extends AbstractCompilerPassTestCa
     {
         $this->compile();
 
-        $this->assertContainerBuilderHasParameter('timezone', null);
+        $this->assertContainerBuilderHasParameter('sylius_grid.timezone', null);
     }
 
     /** @test */
     public function it_does_nothing_if_timezone_parameter_already_exists(): void
     {
-        $this->container->setParameter('timezone', 'UTC');
+        $this->container->setParameter('sylius_grid.timezone', 'UTC');
 
         $this->compile();
 
-        $this->assertContainerBuilderHasParameter('timezone', 'UTC');
+        $this->assertContainerBuilderHasParameter('sylius_grid.timezone', 'UTC');
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
