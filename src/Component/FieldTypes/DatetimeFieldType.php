@@ -22,8 +22,10 @@ final class DatetimeFieldType implements FieldTypeInterface
 {
     private DataExtractorInterface $dataExtractor;
 
-    public function __construct(DataExtractorInterface $dataExtractor)
-    {
+    public function __construct(
+        DataExtractorInterface $dataExtractor,
+        private ?string $timezone = null,
+    ) {
         $this->dataExtractor = $dataExtractor;
     }
 
@@ -37,7 +39,12 @@ final class DatetimeFieldType implements FieldTypeInterface
             return '';
         }
 
+        /** @var \DateTimeImmutable|\DateTime $value */
         Assert::isInstanceOf($value, \DateTimeInterface::class);
+
+        if (null !== $options['timezone']) {
+            $value = $value->setTimezone(new \DateTimeZone($options['timezone']));
+        }
 
         return $value->format($options['format']);
     }
@@ -46,5 +53,7 @@ final class DatetimeFieldType implements FieldTypeInterface
     {
         $resolver->setDefault('format', 'Y-m-d H:i:s');
         $resolver->setAllowedTypes('format', 'string');
+        $resolver->setDefault('timezone', $this->timezone);
+        $resolver->setAllowedTypes('timezone', ['null', 'string']);
     }
 }
