@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v1.13.0-ALPHA.2 (2024-09-05)
+
+#### Details
+
+- [#146](https://github.com/Sylius/SyliusGridBundle/issues/146) Added NumericRange filter which gives the possibility of filtering … ([@christopherhero](https://github.com/christopherhero))
+- [#328](https://github.com/Sylius/SyliusGridBundle/issues/328) Bump resource bundle version on dev requirements ([@loic425](https://github.com/loic425))
+- [#327](https://github.com/Sylius/SyliusGridBundle/issues/327) Test grids with UI instead of API ([@loic425](https://github.com/loic425))
+- [#323](https://github.com/Sylius/SyliusGridBundle/issues/323) Add timezone option to DatetimeFieldType ([@coldic3](https://github.com/coldic3))
+- [#324](https://github.com/Sylius/SyliusGridBundle/issues/324) Add support for Symfony 7 ([@loic425](https://github.com/loic425))
+
 ## v1.13.0-ALPHA.1 (2024-01-30)
 
 #### Details
