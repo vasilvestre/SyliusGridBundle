@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.13.0-ALPHA.3 (2024-09-24)
+
+#### Details
+
+- [#320](https://github.com/Sylius/SyliusGridBundle/issues/320) [Docs] Fix typo suplier => supplier ([@nclsHart](https://github.com/nclsHart))
+- [#341](https://github.com/Sylius/SyliusGridBundle/issues/341) [Composer] Bump sylius/resource-bundle to 1.12 alpha version ([@GSadee](https://github.com/GSadee))
+- [#319](https://github.com/Sylius/SyliusGridBundle/issues/319) [Gitattributes] Add tests directory to ignore list ([@loic425](https://github.com/loic425))
+- [#302](https://github.com/Sylius/SyliusGridBundle/issues/302) Allow Pagerfanta 4.0 ([@mbabker](https://github.com/mbabker))
+
 ## v1.13.0-ALPHA.2 (2024-09-05)
 
 #### Details
