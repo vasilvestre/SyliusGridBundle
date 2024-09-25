@@ -15,6 +15,12 @@
     <services>
         <defaults public="true" />
 
+        <service id="sylius_grid.symfony.session.filter_storage" class="Sylius\Component\Grid\Symfony\Session\Filter\Storage\SessionFilterStorage" public="false">
+            <argument type="service" id="request_stack" />
+        </service>
+        <service id="sylius_grid.filter_storage" alias="sylius_grid.symfony.session.filter_storage" />
+        <service id="Sylius\Component\Grid\Filter\Storage\FilterStorageInterface" alias="sylius_grid.filter_storage" />
+
         <service id="sylius.form_registry.grid_filter" class="Sylius\Bundle\GridBundle\Form\Registry\FormTypeRegistry" public="false" />
 
         <service id="Sylius\Component\Grid\Filter\StringFilter">
