@@ -11,9 +11,8 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Grid\Symfony\Session\Filter\Storage;
+namespace Sylius\Bundle\GridBundle\Storage;
 
-use Sylius\Component\Grid\Filter\Storage\FilterStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 

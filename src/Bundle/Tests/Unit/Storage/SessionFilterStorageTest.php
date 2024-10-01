@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Grid\Tests\Unit\Symfony\Session\Filter\Storage;
+namespace Sylius\Bundle\GridBundle\Tests\Unit\Storage;
 
 use PHPUnit\Framework\TestCase;
-use Sylius\Component\Grid\Filter\Storage\FilterStorageInterface;
-use Sylius\Component\Grid\Symfony\Session\Filter\Storage\SessionFilterStorage;
+use Sylius\Bundle\GridBundle\Storage\FilterStorageInterface;
+use Sylius\Bundle\GridBundle\Storage\SessionFilterStorage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;

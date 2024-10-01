@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Grid\Tests\Integration\Filter\Storage;
+namespace Integration\Storage;
 
-use Sylius\Component\Grid\Filter\Storage\FilterStorageInterface;
-use Sylius\Component\Grid\Symfony\Session\Filter\Storage\SessionFilterStorage;
+use Sylius\Bundle\GridBundle\Storage\FilterStorageInterface;
+use Sylius\Bundle\GridBundle\Storage\SessionFilterStorage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class SessionFilterStorageTest extends KernelTestCase

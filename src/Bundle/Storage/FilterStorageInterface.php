@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Component\Grid\Filter\Storage;
+namespace Sylius\Bundle\GridBundle\Storage;
 
 interface FilterStorageInterface
 {
