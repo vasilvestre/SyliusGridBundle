@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.13.0-BETA.1 (2024-10-01)
+
+#### Details
+
+- [#343](https://github.com/Sylius/SyliusGridBundle/issues/343) [Composer] Bump ResourceBundle to 1.12 beta ([@GSadee](https://github.com/GSadee))
+- [#342](https://github.com/Sylius/SyliusGridBundle/issues/342) Add storage for filters ([@loic425](https://github.com/loic425), [@GSadee](https://github.com/GSadee))
+
 ## v1.13.0-ALPHA.3 (2024-09-24)
 
 #### Details
