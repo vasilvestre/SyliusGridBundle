@@ -25,11 +25,11 @@ final class SessionFilterStorageTest extends KernelTestCase
 
         $container = $this->getContainer();
 
-        $this->assertTrue($container->has('sylius_grid.symfony.session.filter_storage'));
-        $this->assertInstanceOf(SessionFilterStorage::class, $container->get('sylius_grid.symfony.session.filter_storage'));
+        $this->assertTrue($container->has('sylius.grid.filter_storage.session'));
+        $this->assertInstanceOf(SessionFilterStorage::class, $container->get('sylius.grid.filter_storage.session'));
 
-        $this->assertTrue($container->has('sylius_grid.filter_storage'));
-        $this->assertInstanceOf(SessionFilterStorage::class, $container->get('sylius_grid.symfony.session.filter_storage'));
+        $this->assertTrue($container->has('sylius.grid.filter_storage'));
+        $this->assertInstanceOf(SessionFilterStorage::class, $container->get('sylius.grid.filter_storage'));
 
         $this->assertTrue($container->has(FilterStorageInterface::class));
         $this->assertInstanceOf(SessionFilterStorage::class, $container->get(FilterStorageInterface::class));
