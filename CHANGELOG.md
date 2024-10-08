@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.13.0 (2024-10-08)
+
+#### Details
+
+- [#344](https://github.com/Sylius/SyliusGridBundle/issues/344) [Composer] Bump sylius/resource-bundle dev dependency to last stable release ([@GSadee](https://github.com/GSadee))
+
 ## v1.13.0-BETA.1 (2024-10-01)
 
 #### Details
