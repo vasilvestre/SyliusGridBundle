@@ -44,6 +44,12 @@
 - [#307](https://github.com/Sylius/SyliusGridBundle/issues/307) Move tests app ([@loic425](https://github.com/loic425))
 - [#308](https://github.com/Sylius/SyliusGridBundle/issues/308) [Maintenance] Launch of `Sylius Sp. z o.o.` copyright owner across project files ([@Rafikooo](https://github.com/Rafikooo))
 
+## v1.12.2 (2024-10-08)
+
+#### Details
+
+- [#320](https://github.com/Sylius/SyliusGridBundle/issues/320) [Docs] Fix typo suplier => supplier ([@nclsHart](https://github.com/nclsHart))
+
 ## v1.12.1 (2024-01-05)
 
 #### Details
