@@ -20,7 +20,6 @@ use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MakerBundle\MakerBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
-use winzou\Bundle\StateMachineBundle\winzouStateMachineBundle;
 
 return [
     FrameworkBundle::class => ['all' => true],
@@ -29,7 +28,6 @@ return [
     SyliusResourceBundle::class => ['all' => true],
     SyliusGridBundle::class => ['all' => true],
     BabDevPagerfantaBundle::class => ['all' => true],
-    winzouStateMachineBundle::class => ['all' => true],
     FidryAliceDataFixturesBundle::class => ['all' => true],
     NelmioAliceBundle::class => ['all' => true],
     MakerBundle::class => ['all' => true, 'test_without_maker' => false],
