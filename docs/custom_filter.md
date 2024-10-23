@@ -12,9 +12,11 @@ namespace App\Grid\Filter;
 
 use App\Form\Type\Filter\SuppliersStatisticsFilterType;
 use Sylius\Bundle\GridBundle\Doctrine\DataSourceInterface;
-use Sylius\Component\Grid\Filtering\ConfiguragurableFilterInterface;
+use Sylius\Component\Grid\Filtering\FilterInterface;
+use Sylius\Component\Grid\Attribute\AsFilter;
 
-class SuppliersStatisticsFilter implements ConfiguragurableFilterInterface
+#[AsFilter(formType: SuppliersStatisticsFilterType::class)]
+class SuppliersStatisticsFilter implements FilterInterface
 {
     public function apply(DataSourceInterface $dataSource, $name, $data, array $options = []): void
     {
@@ -31,16 +33,6 @@ class SuppliersStatisticsFilter implements ConfiguragurableFilterInterface
         // $data['stats'] contains the submitted value!
         // here is an example
         $dataSource->restrict($dataSource->getExpressionBuilder()->equals('stats', $data['stats']));
-    }
-    
-    public static function getType() : string
-    {
-        return 'suppliers_statistics';
-    }
-    
-    public static function getFormType() : string
-    {
-        return SuppliersStatisticsFilterType::class;
     }
 }
 ```
@@ -116,7 +108,7 @@ sylius_grid:
             resource: app.tournament
             filters:
                 stats:
-                    type: suppliers_statistics
+                    type: !php/const App\Grid\Filter\SuppliersStatisticsFilter::class
                     form_options:
                         range: [0, 100]
     templates:
