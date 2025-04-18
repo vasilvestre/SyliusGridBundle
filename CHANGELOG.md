@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v1.14.0-ALPHA.1 (2025-03-12)
+
+#### Details
+
+- [#363](https://github.com/Sylius/SyliusGridBundle/issues/363) Fix implicit nullable parameter ([@loic425](https://github.com/loic425))
+- [#321](https://github.com/Sylius/SyliusGridBundle/issues/321) Add callable field ([@Florian-Merle](https://github.com/Florian-Merle))
+- [#366](https://github.com/Sylius/SyliusGridBundle/issues/366) [CI] Add GitHub Action for creating upmerge PRs ([@GSadee](https://github.com/GSadee))
+- [#360](https://github.com/Sylius/SyliusGridBundle/issues/360) ci : update checkout action to upgrade node ([@vasilvestre](https://github.com/vasilvestre))
+- [#365](https://github.com/Sylius/SyliusGridBundle/issues/365) [FieldTypes] add vars option on DateTime & Twig field types ([@loic425](https://github.com/loic425))
+- [#367](https://github.com/Sylius/SyliusGridBundle/issues/367) fix grid sorting with sorting key not defined and  grid definition creation ([@Florian-Merle](https://github.com/Florian-Merle))
+
+## v1.13.1 (2024-11-29)
+
+#### Details
+
+- [#347](https://github.com/Sylius/SyliusGridBundle/issues/347) [Fix] Flip ([@loic425](https://github.com/loic425))
+- [#353](https://github.com/Sylius/SyliusGridBundle/issues/353) Update interface name in custom_filter docs ([@arti0090](https://github.com/arti0090))
+- [#350](https://github.com/Sylius/SyliusGridBundle/issues/350) Update LICENSE year ([@damonsson](https://github.com/damonsson))
+- [#351](https://github.com/Sylius/SyliusGridBundle/issues/351) Create LICENSE_OF_TRADEMARK_AND_LOGO ([@damonsson](https://github.com/damonsson))
+- [#345](https://github.com/Sylius/SyliusGridBundle/issues/345) Update RegisterFiltersPass.php ([@dotdevio](https://github.com/dotdevio))
+- [#355](https://github.com/Sylius/SyliusGridBundle/issues/355) Fix static analysis in RegisterFiltersPass ([@GSadee](https://github.com/GSadee))
+
 ## v1.13.0 (2024-10-08)
 
 #### Details

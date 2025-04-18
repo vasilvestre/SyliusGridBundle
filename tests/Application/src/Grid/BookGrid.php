@@ -22,6 +22,7 @@ use Sylius\Bundle\GridBundle\Builder\Action\ShowAction;
 use Sylius\Bundle\GridBundle\Builder\Action\UpdateAction;
 use Sylius\Bundle\GridBundle\Builder\ActionGroup\ItemActionGroup;
 use Sylius\Bundle\GridBundle\Builder\ActionGroup\MainActionGroup;
+use Sylius\Bundle\GridBundle\Builder\Field\CallableField;
 use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Filter\Filter;
 use Sylius\Bundle\GridBundle\Builder\GridBuilderInterface;
@@ -73,9 +74,8 @@ final class BookGrid extends AbstractGrid implements ResourceAwareGridInterface
             )
             ->orderBy('title', 'asc')
             ->addField(
-                StringField::create('title')
-                    ->setLabel('Title')
-                    ->setSortable(true),
+                CallableField::create('title', 'strtoupper')
+                    ->setLabel('Title'),
             )
             ->addField(
                 StringField::create('author')
@@ -88,6 +88,13 @@ final class BookGrid extends AbstractGrid implements ResourceAwareGridInterface
                     ->setLabel('Nationality')
                     ->setPath('author.nationality.name')
                     ->setSortable(true, 'author.nationality.name'),
+            )
+            ->addField(
+                StringField::create('currency')
+                    ->setLabel('Currency')
+                    ->setPath('price.currencyCode')
+                    ->setSortable(true, 'price.currencyCode')
+                    ->setOption('vars', ['th_class' => 'text-end']),
             )
             ->addActionGroup(
                 ItemActionGroup::create(

@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Grid\Builder\AttributeNationalityFilter;
 use App\Grid\Builder\NationalityFilter;
+use Sylius\Bundle\GridBundle\Builder\Field\CallableField;
 use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Filter\EntityFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\SelectFilter;
@@ -28,6 +30,11 @@ return static function (GridConfig $grid) {
         ->addFilter(EntityFilter::create('author', Author::class, true))
         ->addFilter(NationalityFilter::create(
             'nationality',
+            null,
+            ['author.nationality'],
+        ))
+        ->addFilter(AttributeNationalityFilter::create(
+            AttributeNationalityFilter::class,
             null,
             ['author.nationality'],
         ))
@@ -48,9 +55,8 @@ return static function (GridConfig $grid) {
         )
         ->orderBy('title', 'asc')
         ->addField(
-            StringField::create('title')
-                ->setLabel('Title')
-                ->setSortable(true),
+            CallableField::create('title', 'strtoupper')
+                ->setLabel('Title'),
         )
         ->addField(
             StringField::create('author')
@@ -63,6 +69,13 @@ return static function (GridConfig $grid) {
                 ->setLabel('Nationality')
                 ->setPath('author.nationality.name')
                 ->setSortable(true, 'author.nationality.name'),
+        )
+        ->addField(
+            StringField::create('currency')
+                ->setLabel('Currency')
+                ->setPath('price.currencyCode')
+                ->setSortable(true, 'price.currencyCode')
+                ->setOption('vars', ['th_class' => 'text-end']),
         )
         ->setLimits([10, 5, 15]),
     );

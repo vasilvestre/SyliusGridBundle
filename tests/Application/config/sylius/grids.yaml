@@ -33,9 +33,10 @@ sylius_grid:
                 title: asc
             fields:
                 title:
-                    type: string
+                    type: callable
+                    options:
+                        callable: "callable:strtoupper"
                     label: Title
-                    sortable: ~
                 author:
                     type: string
                     label: Author
@@ -46,6 +47,14 @@ sylius_grid:
                     label: Nationality
                     path: author.nationality.name
                     sortable: author.nationality.name
+                currency:
+                    type: string
+                    label: Currency
+                    path: price.currencyCode
+                    sortable: price.currencyCode
+                    options:
+                        vars:
+                            th_class: "text-end"
             limits: [10, 5, 15]
 
         app_author:
@@ -60,10 +69,11 @@ sylius_grid:
                 name: asc
             fields:
                 id:
-                    type: string
+                    type: callable
+                    options:
+                        callable: "callable:App\\Helper\\GridHelper::addHashPrefix"
                     label: ID
                     sortable: ~
-                    enabled: false
                 name:
                     type: string
                     label: Name
